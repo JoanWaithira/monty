@@ -7,21 +7,25 @@
  */
 int main(int argc, char *argv[])
 {
+	char opcode[10];
+	int value;
+	FILE *file;
+	stack_t *stack;
+
+	file = fopen(argv[1], "r");
+	stack = NULL;
+
 	if (argc != 2)
 	{
 		fprintf(stderr, "Usage: %s <filename>\n", argv[0]);
 		return (EXIT_FAILURE);
 	}
-	FILE *file = fopen(argv[1], "r");
 
 	if (!file)
 	{
 		perror("Error opening file");
 		return (EXIT_FAILURE);
 	}
-	stack_t *stack = NULL;
-	char opcode[10];
-	int value;
 
 	while (fscanf(file, "%s", opcode) != EOF)
 	{
@@ -33,7 +37,7 @@ int main(int argc, char *argv[])
 				fclose(file);
 				return (EXIT_FAILURE);
 			}
-			push(&stack, __LINE__, value);
+			push(&stack, value);
 		}
 		else if (strcmp(opcode, "pall") == 0)
 		{

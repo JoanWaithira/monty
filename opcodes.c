@@ -7,7 +7,7 @@
  */
 
 /* Implementation of the push opcode */
-void push(stack_t **stack, unsigned int line_number, int value)
+void push(stack_t **stack, int value)
 {
 	stack_t *new_node = malloc(sizeof(stack_t));
 
