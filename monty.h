@@ -3,6 +3,8 @@
 
 #include <stdio.h>
 #include <stdlib.h>
+void push(stack_t **stack, unsigned int line_number, int value);
+void pall(stack_t **stack);
 /**
  * struct stack_s - doubly linked list representation of a stack (or queue)
  * @n: integer
