@@ -1,56 +1,60 @@
 #include "monty.h"
 /**
  * main - Entry point of the Monty interpreter
- * @argc: Number of command-line arguments
- * @argv: Array of command-line argument strings
  * Return: EXIT_SUCCESS on success, EXIT_FAILURE on failure
  */
-int main(int argc, char *argv[])
+
+int main(void)
 {
 	char opcode[10];
 	int value;
-	FILE *file;
-	stack_t *stack;
+	char line[100];
+	FILE *file = NULL;
+	stack_t *stack = NULL;
 	unsigned int line_number = 1;
 
-	file = fopen(argv[1], "r");
-	stack = NULL;
-
-	if (argc != 2)
-	{
-		fprintf(stderr, "Usage: %s <filename>\n", argv[0]);
-		return (EXIT_FAILURE);
-	}
-
+	file = fopen("bytecodes/00.m", "r");
 	if (!file)
 	{
 		perror("Error opening file");
 		return (EXIT_FAILURE);
 	}
-
-	while (fscanf(file, "%s", opcode) != EOF)
+	while (fgets(line, sizeof(line), file))
 	{
-		if (strcmp(opcode, "push") == 0)
+		char *value_str;
+		char *newline = strchr(line, '\n');
+
+		if (newline)
+			*newline = '\0';
+		value_str = strtok(line, " ");
+		if (value_str)
 		{
-			if (fscanf(file, "%d", &value) != 1)
+			if (strcmp(value_str, "push") == 0)
 			{
-				fprintf(stderr, "Error: Usage: push <int>\n");
+				value_str = strtok(NULL, " ");
+				if (value_str && sscanf(value_str, "%d", &value) == 1)
+				{
+					push(&stack, line_number, value);
+				}
+				else
+				{
+					fprintf(stderr, "L%d: usage: push integer\n", line_number);
+					fclose(file);
+					free_stack(&stack);
+					return (EXIT_FAILURE);
+				}
+			}
+			else if (strcmp(value_str, "pall") == 0)
+			{
+				pall(&stack, line_number);
+			}
+			else
+			{
+				fprintf(stderr, "L%d: unknown instruction %s\n", line_number, opcode);
 				fclose(file);
 				free_stack(&stack);
 				return (EXIT_FAILURE);
 			}
-			push(line_number);
-		}
-		else if (strcmp(opcode, "pall") == 0)
-		{
-			pall(line_number);
-		}
-		else
-		{
-			fprintf(stderr, "L%d: unknown instruction %s\n", line_number, opcode);
-			fclose(file);
-			free_stack(&stack);
-			return(EXIT_FAILURE);
 		}
 		line_number++;
 	}

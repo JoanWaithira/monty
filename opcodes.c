@@ -1,7 +1,5 @@
 #include "monty.h"
 
-stack_t *stack = NULL;
-
 /**
  * push - Implementation of the push opcode
  * @stack: Pointer to the stack
@@ -9,51 +7,34 @@ stack_t *stack = NULL;
  * @value: Value to push onto the stack
  */
 
-void push(unsigned int line_number)
+void push(stack_t **stack, unsigned int line_number, int value)
 {
-	char *value_str = strtok(NULL, " \n");
-	int value;
-	stack_t *new_node;
-
-	if (!value_str)
-	{
-		fprintf(stderr, "L%d: usage: push integer\n", line_number);
-		exit(EXIT_FAILURE);
-	}
-
-	value = atoi(value_str);
-	new_node = malloc(sizeof(stack_t));
+	stack_t *new_node = malloc(sizeof(stack_t));
+	(void)line_number;
 
 	if (!new_node)
 	{
 		fprintf(stderr, "Error: malloc failed\n");
 		exit(EXIT_FAILURE);
 	}
-
-
 	new_node->n = value;
 	new_node->prev = NULL;
-	new_node->next = stack;
-
-	if (stack)
+	new_node->next = *stack;
+	if (*stack)
 	{
-		(stack)->prev = new_node;
+		(*stack)->prev = new_node;
 	}
-
-	stack = new_node;
+	*stack = new_node;
 }
 /**
  * pall - Implementation of the pall opcode
- * @line_number: Pointer to the stack
+ * @stack: Pointer to the stack
+ * @line_number: Line number in the file
  */
-void pall(unsigned int line_number)
+void pall(stack_t **stack, unsigned int line_number)
 {
-	stack_t *current;
-
+	stack_t *current = *stack;
 	(void)line_number;
-
-	current = stack;
-	stack = NULL;
 
 	while (current)
 	{

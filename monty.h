@@ -2,6 +2,7 @@
 #define MONTY_H
 
 #include <stdio.h>
+#include <unistd.h>
 #include <stdlib.h>
 #include <string.h>
 #include <ctype.h>
@@ -21,10 +22,10 @@ typedef struct stack_s
 	struct stack_s *prev;
 	struct stack_s *next;
 } stack_t;
-void push(unsigned int line_number);
-void pall(unsigned int line_number);
+void push(stack_t **stack, unsigned int line_number, int value);
+void pall(stack_t **stack, unsigned int line_number);
 void free_stack(stack_t **stack);
-
+int main(void);
 /**
  * struct instruction_s - opcode and its function
  * @opcode: the opcode
