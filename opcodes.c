@@ -1,4 +1,7 @@
 #include "monty.h"
+
+stack_t *stack = NULL;
+
 /**
  * push - Implementation of the push opcode
  * @stack: Pointer to the stack
@@ -7,15 +10,27 @@
  */
 
 /* Implementation of the push opcode */
-void push(stack_t **stack, int value)
+void push(stack_t **stack, unsigned int line_number)
 {
-	stack_t *new_node = malloc(sizeof(stack_t));
+	char *value_str = strtok(NULL, " \n");
+	int value;
+	stack_t *new_node;
+
+	if (!value_str)
+	{
+		fprintf(stderr, "L%d: usage: push integer\n", line_number);
+		exit(EXIT_FAILURE);
+	}
+
+	value = atoi(value_str);
+	new_node = malloc(sizeof(stack_t));
 
 	if (!new_node)
 	{
 		fprintf(stderr, "Error: malloc failed\n");
 		exit(EXIT_FAILURE);
 	}
+
 
 	new_node->n = value;
 	new_node->prev = NULL;
@@ -25,15 +40,20 @@ void push(stack_t **stack, int value)
 		(*stack)->prev = new_node;
 
 	*stack = new_node;
+	free(new_node);
 }
 /**
  * pall - Implementation of the pall opcode
- * @stack: Pointer to the stack
+ * @line_number: Pointer to the stack
  */
-/* Implementation of the pall opcode */
-void pall(stack_t **stack)
+void pall(stack_t **stack, unsigned int line_number)
 {
-	stack_t *current = *stack;
+
+	stack_t *current;
+
+	(void)line_number;
+
+	current = *stack;
 
 	while (current)
 	{

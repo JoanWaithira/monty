@@ -11,6 +11,7 @@ int main(int argc, char *argv[])
 	int value;
 	FILE *file;
 	stack_t *stack;
+	unsigned int line_number = 1;
 
 	file = fopen(argv[1], "r");
 	stack = NULL;
@@ -35,15 +36,25 @@ int main(int argc, char *argv[])
 			{
 				fprintf(stderr, "Error: Usage: push <int>\n");
 				fclose(file);
+				free_stack(&stack);
 				return (EXIT_FAILURE);
 			}
 			push(&stack, value);
 		}
 		else if (strcmp(opcode, "pall") == 0)
 		{
-			pall(&stack);
+			pall(&stack, line_number);
 		}
+		else
+		{
+			fprintf(stderr, "L%d: unknown instruction %s\n", line_number, opcode);
+			fclose(file);
+			free_stack(&stack);
+			return(EXIT_FAILURE);
+		}
+		line_number++;
 	}
 	fclose(file);
+	free_stack(&stack);
 	return (EXIT_SUCCESS);
 }
