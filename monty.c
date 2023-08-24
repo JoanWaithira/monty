@@ -39,11 +39,11 @@ int main(int argc, char *argv[])
 				free_stack(&stack);
 				return (EXIT_FAILURE);
 			}
-			push(&stack, value);
+			push(line_number);
 		}
 		else if (strcmp(opcode, "pall") == 0)
 		{
-			pall(&stack, line_number);
+			pall(line_number);
 		}
 		else
 		{
