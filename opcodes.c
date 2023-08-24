@@ -1,7 +1,5 @@
 #include "monty.h"
 
-stack_t *stack = NULL;
-
 /**
  * push - Implementation of the push opcode
  * @stack: Pointer to the stack
@@ -9,12 +7,12 @@ stack_t *stack = NULL;
  * @value: Value to push onto the stack
  */
 
-/* Implementation of the push opcode */
 void push(stack_t **stack, unsigned int line_number)
 {
 	char *value_str = strtok(NULL, " \n");
 	int value;
 	stack_t *new_node;
+	*stack = NULL;
 
 	if (!value_str)
 	{
@@ -37,10 +35,11 @@ void push(stack_t **stack, unsigned int line_number)
 	new_node->next = *stack;
 
 	if (*stack)
+	{
 		(*stack)->prev = new_node;
+	}
 
 	*stack = new_node;
-	free(new_node);
 }
 /**
  * pall - Implementation of the pall opcode
@@ -48,12 +47,12 @@ void push(stack_t **stack, unsigned int line_number)
  */
 void pall(stack_t **stack, unsigned int line_number)
 {
-
 	stack_t *current;
 
 	(void)line_number;
 
 	current = *stack;
+	*stack = NULL;
 
 	while (current)
 	{
