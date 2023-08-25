@@ -6,9 +6,8 @@
 
 int main(void)
 {
-	char opcode[10];
+	char opcode[10], line [100];
 	int value;
-	char line[100];
 	FILE *file = NULL;
 	stack_t *stack = NULL;
 	unsigned int line_number = 1;
@@ -25,13 +24,15 @@ int main(void)
 		char *newline = strchr(line, '\n');
 
 		if (newline)
+		{
 			*newline = '\0';
-		value_str = strtok(line, " ");
+		}
+		value_str = strtok(line, " \t\r");
 		if (value_str)
 		{
 			if (strcmp(value_str, "push") == 0)
 			{
-				value_str = strtok(NULL, " ");
+				value_str = strtok(NULL, " \t\r");
 				if (value_str && sscanf(value_str, "%d", &value) == 1)
 				{
 					push(&stack, line_number, value);
