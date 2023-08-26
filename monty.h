@@ -27,6 +27,7 @@ void pall(stack_t **stack, unsigned int line_number);
 void free_stack(stack_t **stack);
 int main(int argc, char *argv[]);
 void op_pint(stack_t **stack, unsigned int line_number);
+void op_swap(stack_t **stack, unsigned int line_number);
 void op_pop(stack_t **stack, unsigned int line_number);
 void process_file(FILE *file, stack_t **stack, unsigned int line_number);
 void process_push(
