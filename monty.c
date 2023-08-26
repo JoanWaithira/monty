@@ -68,6 +68,10 @@ void process_file(FILE *file, stack_t **stack, unsigned int line_number)
 			{
 				process_pall(stack, line_number);
 			}
+			else if (strcmp(value_str, "pint") == 0)
+			{
+				op_pint(stack, line_number);
+			}
 			else
 			{
 				fprintf(stderr, "L%d: unknown instruction %s\n", line_number, value_str);
