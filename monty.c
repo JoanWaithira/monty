@@ -37,8 +37,8 @@ void process_file(FILE *file, stack_t **stack, unsigned int line_number)
 		newline = strchr(line, '\n');
 		if (newline)
 			*newline = '\0';
-		value_str = strtok(line, " ");
 
+		value_str = strtok(line, " ");
 		if (value_str)
 		{
 			if (strcmp(value_str, "push") == 0)
@@ -94,7 +94,6 @@ void process_push(char **value_str, stack_t **stack, unsigned int line_number)
 		exit(EXIT_FAILURE);
 	}
 }
-
 /**
  * process_pall - Process the pall instruction
  * @stack: Pointer to the stack
