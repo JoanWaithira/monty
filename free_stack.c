@@ -2,6 +2,7 @@
 /**
  * free_stack - A function that frees the stack.
  * @stack: Stack in question
+ * stack: Stack in question
  * Return: Memory freed
  */
 void free_stack(stack_t **stack)
