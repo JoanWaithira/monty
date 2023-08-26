@@ -27,7 +27,12 @@ void pall(stack_t **stack, unsigned int line_number);
 void free_stack(stack_t **stack);
 int main(void);
 void process_file(FILE *file, stack_t **stack, unsigned int line_number);
-void process_push(char **value_str, stack_t **stack, unsigned int line_number);
+void process_push(
+		FILE *file,
+		char **value_str,
+		stack_t **stack,
+		unsigned int line_number
+);
 void process_pall(stack_t **stack, unsigned int line_number);
 /**
  * struct instruction_s - opcode and its function

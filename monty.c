@@ -43,7 +43,7 @@ void process_file(FILE *file, stack_t **stack, unsigned int line_number)
 		{
 			if (strcmp(value_str, "push") == 0)
 			{
-				process_push(&value_str, stack, line_number);
+				process_push(file, &value_str, stack, line_number);
 			}
 			else if (strcmp(value_str, "pall") == 0)
 			{
@@ -63,11 +63,13 @@ void process_file(FILE *file, stack_t **stack, unsigned int line_number)
 
 /**
  * process_push - Process the push instruction
+ * @file: Pointer to the file being read
  * @value_str: String containing the value argument
  * @stack: Pointer to the stack
  * @line_number: Current line number
  */
-void process_push(char **value_str, stack_t **stack, unsigned int line_number)
+void process_push(FILE *file, char **value_str, stack_t **stack,
+unsigned int line_number)
 {
 	long value;
 	char *endptr;
@@ -83,6 +85,7 @@ void process_push(char **value_str, stack_t **stack, unsigned int line_number)
 		else
 		{
 			fprintf(stderr, "L%d: usage: push integer\n", line_number);
+			fclose(file);
 			free_stack(stack);
 			exit(EXIT_FAILURE);
 		}
@@ -90,6 +93,7 @@ void process_push(char **value_str, stack_t **stack, unsigned int line_number)
 	else
 	{
 		fprintf(stderr, "L%d: usage: push integer\n", line_number);
+		fclose(file);
 		free_stack(stack);
 		exit(EXIT_FAILURE);
 	}
